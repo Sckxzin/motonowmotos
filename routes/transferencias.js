@@ -46,5 +46,17 @@ router.post("/aprovar", async (req, res) => {
     res.status(500).json({ erro: err.message });
   }
 });
+// listar transferencias pendentes (diretoria)
+router.get("/pendentes", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM transferencias WHERE status = 'PENDENTE' ORDER BY data_solicitacao"
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+});
+
 
 module.exports = router;
