@@ -18,7 +18,8 @@ async function carregarMotos() {
       <td>${moto.chassi}</td>
       <td>${moto.santander}</td>
       <td>
-        <button onclick='abrirModal(${JSON.stringify(moto)})'>Vender</button>
+        <button onclick='abrirVenda(${JSON.stringify(moto)})'>Vender</button>
+        <button onclick='abrirTransferencia(${JSON.stringify(moto)})'>Transferir</button>
       </td>
     `;
 
@@ -26,22 +27,19 @@ async function carregarMotos() {
   });
 }
 
-// abrir modal
-function abrirModal(moto) {
+// ---------- VENDA ----------
+function abrirVenda(moto) {
   document.getElementById("vendaCidade").value = moto.cidade;
   document.getElementById("vendaModelo").value = moto.modelo;
   document.getElementById("vendaCor").value = moto.cor;
   document.getElementById("vendaChassi").value = moto.chassi;
-
   document.getElementById("modalVenda").style.display = "block";
 }
 
-// fechar modal
 function fecharModal() {
   document.getElementById("modalVenda").style.display = "none";
 }
 
-// confirmar venda
 async function confirmarVenda() {
   const payload = {
     cidade: document.getElementById("vendaCidade").value,
@@ -65,5 +63,33 @@ async function confirmarVenda() {
   carregarMotos();
 }
 
-// inicial
+// ---------- TRANSFERÊNCIA ----------
+function abrirTransferencia(moto) {
+  document.getElementById("transfChassi").value = moto.chassi;
+  document.getElementById("transfCidadeOrigem").value = moto.cidade;
+  document.getElementById("modalTransferencia").style.display = "block";
+}
+
+function fecharTransferencia() {
+  document.getElementById("modalTransferencia").style.display = "none";
+}
+
+async function confirmarTransferencia() {
+  const payload = {
+    chassi: document.getElementById("transfChassi").value,
+    cidade_origem: document.getElementById("transfCidadeOrigem").value,
+    cidade_destino: document.getElementById("transfCidadeDestino").value
+  };
+
+  await fetch(`${API_URL}/transferencias/solicitar`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  fecharTransferencia();
+  carregarMotos();
+}
+
+// init
 carregarMotos();
