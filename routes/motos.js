@@ -2,15 +2,27 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// listar motos em estoque
+// LISTAR TODAS AS MOTOS
+// usado pela tela de estoque
 router.get("/", async (req, res) => {
   try {
-    const { rows } = await pool.query(
-      "SELECT * FROM motos WHERE status = 'ESTOQUE' ORDER BY cidade, modelo"
-    );
-    res.json(rows);
+    const result = await pool.query(`
+      SELECT 
+        id,
+        cidade,
+        modelo,
+        cor,
+        chassi,
+        santander,
+        data_entrada
+      FROM motos
+      ORDER BY cidade, modelo
+    `);
+
+    res.json(result.rows);
   } catch (err) {
-    res.status(500).json({ erro: err.message });
+    console.error("Erro ao buscar motos:", err);
+    res.status(500).json({ erro: "Erro ao buscar motos" });
   }
 });
 
