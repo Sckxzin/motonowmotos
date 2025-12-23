@@ -7,20 +7,23 @@ router.post("/", async (req, res) => {
 
   try {
     const conn = await conectar();
+
     const result = await conn.execute(
       `SELECT usuario, loja 
        FROM usuarios 
        WHERE usuario = :usuario AND senha = :senha`,
       { usuario, senha }
     );
+
     await conn.close();
 
     if (result.rows.length === 0) {
       return res.status(401).json({ message: "Login inválido" });
     }
 
-    // 🔥 AQUI ESTÁ A CORREÇÃO
-    const [usuarioDB, lojaDB] = result.rows[0];
+    // AGORA FUNCIONA
+    const usuarioDB = result.rows[0].USUARIO;
+    const lojaDB = result.rows[0].LOJA;
 
     res.json({
       message: "login ok",
@@ -29,7 +32,7 @@ router.post("/", async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("ERRO LOGIN:", err);
     res.status(500).json({ erro: err.message });
   }
 });
