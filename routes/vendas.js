@@ -2,45 +2,33 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
+// registrar venda
 router.post("/", async (req, res) => {
   const {
-    cidade,
-    modelo,
-    cor,
-    chassi,
+    moto_id,
     cliente_nome,
-    valor_venda,
-    valor_gasolina,
+    valor,
     brinde,
+    gasolina,
     pagamento
   } = req.body;
 
   try {
+    // grava venda
     await pool.query(
-      `
-      INSERT INTO vendas
-      (cidade, modelo, cor, chassi, cliente_nome, valor_venda, valor_gasolina, brinde, pagamento)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-      `,
-      [
-        cidade,
-        modelo,
-        cor,
-        chassi,
-        cliente_nome,
-        valor_venda,
-        valor_gasolina,
-        brinde,
-        pagamento
-      ]
+      `INSERT INTO vendas 
+      (moto_id, cliente_nome, valor, brinde, gasolina, pagamento, data_venda)
+      VALUES ($1,$2,$3,$4,$5,$6,NOW())`,
+      [moto_id, cliente_nome, valor, brinde, gasolina, pagamento]
     );
 
+    // atualiza status da moto
     await pool.query(
-      "UPDATE motos SET status = 'VENDIDA' WHERE chassi = $1",
-      [chassi]
+      "UPDATE motos SET status = 'VENDIDA' WHERE id = $1",
+      [moto_id]
     );
 
-    res.json({ message: "Venda registrada" });
+    res.json({ status: "Venda registrada com sucesso" });
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }
