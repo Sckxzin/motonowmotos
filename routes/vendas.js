@@ -5,27 +5,39 @@ const pool = require("../db");
 // registrar venda
 router.post("/", async (req, res) => {
   const {
-    moto_id,
+    cidade,
+    modelo,
+    cor,
+    chassi,
     cliente_nome,
-    valor,
+    valor_venda,
+    valor_gasolina,
     brinde,
-    gasolina,
     pagamento
   } = req.body;
 
   try {
-    // grava venda
     await pool.query(
-      `INSERT INTO vendas 
-      (moto_id, cliente_nome, valor, brinde, gasolina, pagamento, data_venda)
-      VALUES ($1,$2,$3,$4,$5,$6,NOW())`,
-      [moto_id, cliente_nome, valor, brinde, gasolina, pagamento]
+      `INSERT INTO vendas
+      (cidade, modelo, cor, chassi, cliente_nome, valor_venda, valor_gasolina, brinde, pagamento, data_saida)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,NOW())`,
+      [
+        cidade,
+        modelo,
+        cor,
+        chassi,
+        cliente_nome,
+        valor_venda,
+        valor_gasolina,
+        brinde,
+        pagamento
+      ]
     );
 
-    // atualiza status da moto
+    // tira a moto do estoque
     await pool.query(
-      "UPDATE motos SET status = 'VENDIDA' WHERE id = $1",
-      [moto_id]
+      "UPDATE motos SET status = 'VENDIDA' WHERE chassi = $1",
+      [chassi]
     );
 
     res.json({ status: "Venda registrada com sucesso" });
