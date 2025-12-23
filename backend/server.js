@@ -7,6 +7,7 @@ const motosRoutes = require("./routes/motos");
 const vendasRoutes = require("./routes/vendas");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -19,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+
+app.listen(PORT, "0.0.0.0", () => {
   console.log("🚀 Backend rodando na porta", PORT);
 });
-
