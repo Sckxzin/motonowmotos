@@ -17,9 +17,7 @@ async function carregarTransferencias() {
       <td>${t.destino}</td>
       <td>${t.status}</td>
       <td>
-        <button onclick="aprovarTransferencia(${t.id})">
-          Aprovar
-        </button>
+        <button onclick="aprovar(${t.id})">Aprovar</button>
       </td>
     `;
 
@@ -27,14 +25,14 @@ async function carregarTransferencias() {
   });
 }
 
-async function aprovarTransferencia(id) {
-  if (!confirm("Aprovar transferência?")) return;
+async function aprovar(id) {
+  if (!confirm("Confirmar aprovação da transferência?")) return;
 
   await fetch(`${API_URL}/transferencias/aprovar/${id}`, {
     method: "POST"
   });
 
-  alert("Transferência aprovada");
+  alert("Transferência aprovada!");
   carregarTransferencias();
 }
 
