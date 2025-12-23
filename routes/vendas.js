@@ -1,56 +1,48 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db"); // seu pool do pg
+const pool = require("../db");
 
 router.post("/", async (req, res) => {
   const {
+    cidade,
     modelo,
     cor,
     chassi,
     cliente_nome,
-    total,
+    valor_venda,
+    valor_gasolina,
     brinde,
-    gasolina,
-    forma_pagamento,
-    como_chegou
+    pagamento
   } = req.body;
 
   try {
-    // 1️⃣ Registrar venda
     await pool.query(
       `
       INSERT INTO vendas
-      (modelo, cor, chassi, cliente_nome, total, brinde, gasolina, forma_pagamento, como_chegou, data_venda)
-      VALUES
-      ($1,$2,$3,$4,$5,$6,$7,$8,$9,NOW())
+      (cidade, modelo, cor, chassi, cliente_nome, valor_venda, valor_gasolina, brinde, pagamento)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
       `,
       [
+        cidade,
         modelo,
         cor,
         chassi,
         cliente_nome,
-        total,
+        valor_venda,
+        valor_gasolina,
         brinde,
-        gasolina,
-        forma_pagamento,
-        como_chegou
+        pagamento
       ]
     );
 
-    // 2️⃣ Dar baixa na moto
     await pool.query(
-      `
-      UPDATE motos
-      SET status = 'vendida'
-      WHERE chassi = $1
-      `,
+      "UPDATE motos SET status = 'VENDIDA' WHERE chassi = $1",
       [chassi]
     );
 
-    res.json({ message: "Venda registrada com sucesso" });
+    res.json({ message: "Venda registrada" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro ao registrar venda" });
+    res.status(500).json({ erro: err.message });
   }
 });
 
