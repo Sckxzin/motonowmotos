@@ -6,6 +6,14 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <script>
+  const perfil = localStorage.getItem("perfil");
+  if (perfil !== "DIRETORIA") {
+    alert("Acesso restrito à diretoria");
+    window.location.href = "login.html";
+  }
+</script>
+
 
 <h1>Diretoria - MotoNow</h1>
 
