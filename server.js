@@ -4,6 +4,7 @@ const cors = require("cors");
 const motosRoutes = require("./routes/motos");
 const vendasRoutes = require("./routes/vendas");
 const transferenciasRoutes = require("./routes/transferencias");
+const loginRoutes = require("./routes/login");
 
 const app = express();
 app.use(cors());
@@ -16,8 +17,10 @@ app.get("/", (req, res) => {
 app.use("/motos", motosRoutes);
 app.use("/vendas", vendasRoutes);
 app.use("/transferencias", transferenciasRoutes);
+app.use("/login", loginRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("🚀 Backend rodando na porta", PORT);
 });
+
