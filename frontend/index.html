@@ -24,5 +24,39 @@
   </table>
 
   <script src="js/api.js"></script>
+
+  <!-- MODAL DE VENDA -->
+<div id="modalVenda" class="modal">
+  <div class="modal-content">
+    <h2>Vender Moto</h2>
+
+    <input type="hidden" id="vendaCidade">
+    <input type="hidden" id="vendaModelo">
+    <input type="hidden" id="vendaCor">
+    <input type="hidden" id="vendaChassi">
+
+    <label>Cliente</label>
+    <input id="clienteNome" placeholder="Nome do cliente">
+
+    <label>Valor da venda</label>
+    <input id="valorVenda" type="number" placeholder="Valor">
+
+    <label>Valor da gasolina</label>
+    <input id="valorGasolina" type="number" placeholder="Gasolina">
+
+    <label>Brinde</label>
+    <input id="brinde" placeholder="Brinde">
+
+    <label>Pagamento</label>
+    <input id="pagamento" placeholder="Forma de pagamento">
+
+    <div class="modal-actions">
+      <button onclick="confirmarVenda()">Confirmar</button>
+      <button onclick="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+
