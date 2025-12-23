@@ -1,13 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const pool = require("../db");
 
+// listar motos em estoque
 router.get("/", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM motos");
-    res.json(result.rows);
+    const { rows } = await pool.query(
+      "SELECT * FROM motos WHERE status = 'ESTOQUE' ORDER BY cidade, modelo"
+    );
+    res.json(rows);
   } catch (err) {
-    res.status(500).json({ erro: "Erro ao listar motos" });
+    res.status(500).json({ erro: err.message });
   }
 });
 
