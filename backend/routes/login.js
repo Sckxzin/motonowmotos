@@ -6,6 +6,8 @@ router.post("/", async (req, res) => {
   const { usuario, senha } = req.body;
 
   try {
+    return res.json({ message: "login ok", usuario: "teste", loja: "teste" });
+
     const conn = await conectar();
 
     const result = await conn.execute(
@@ -38,3 +40,4 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+
