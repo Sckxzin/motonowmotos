@@ -19,12 +19,17 @@ router.post("/", async (req, res) => {
       return res.status(401).json({ message: "Login inválido" });
     }
 
+    // 🔥 AQUI ESTÁ A CORREÇÃO
+    const [usuarioDB, lojaDB] = result.rows[0];
+
     res.json({
       message: "login ok",
-      usuario: result.rows[0].USUARIO,
-      loja: result.rows[0].LOJA
+      usuario: usuarioDB,
+      loja: lojaDB
     });
+
   } catch (err) {
+    console.error(err);
     res.status(500).json({ erro: err.message });
   }
 });
