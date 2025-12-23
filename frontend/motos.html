@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Estoque de Motos</title>
+</head>
+<body>
+  <h2>Estoque de Motos</h2>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Loja</th>
+        <th>Modelo</th>
+        <th>Cor</th>
+        <th>Chassi</th>
+        <th>Santander</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="tabela"></tbody>
+  </table>
+
+  <script src="js/api.js"></script>
+  <script>
+    async function carregar() {
+      const loja = localStorage.getItem("loja");
+      const motos = await listarMotos();
+
+      const tbody = document.getElementById("tabela");
+      tbody.innerHTML = "";
+
+      motos.forEach(m => {
+        // Diretoria vê tudo, loja vê todas (por enquanto)
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${m.LOJA}</td>
+          <td>${m.MODELO}</td>
+          <td>${m.COR}</td>
+          <td>${m.CHASSI}</td>
+          <td>${m.SANTANDER}</td>
+          <td>${m.STATUS}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    carregar();
+  </script>
+</body>
+</html>
