@@ -6,6 +6,11 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <script>
+  const perfil = localStorage.getItem("perfil");
+  if (!perfil) window.location.href = "login.html";
+</script>
+
 
   <h1>Estoque de Motos – MotoNow</h1>
 
@@ -82,5 +87,6 @@
 
 </body>
 </html>
+
 
 
