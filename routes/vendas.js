@@ -45,5 +45,17 @@ router.post("/", async (req, res) => {
     res.status(500).json({ erro: err.message });
   }
 });
+// listar todas as vendas (diretoria)
+router.get("/", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM vendas ORDER BY data_saida DESC"
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+});
 
 module.exports = router;
+
