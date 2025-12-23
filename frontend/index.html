@@ -56,7 +56,31 @@
     </div>
   </div>
 </div>
+<!-- MODAL TRANSFERÊNCIA -->
+<div id="modalTransferencia" class="modal">
+  <div class="modal-content">
+    <h2>Transferir Moto</h2>
+
+    <input type="hidden" id="transfChassi">
+    <input type="hidden" id="transfCidadeOrigem">
+
+    <label>Cidade destino</label>
+    <select id="transfCidadeDestino">
+      <option value="ESCADA">ESCADA</option>
+      <option value="IPOJUCA">IPOJUCA</option>
+      <option value="SAO JOSE">SAO JOSE</option>
+      <option value="XEXEU">XEXEU</option>
+      <option value="CATENDE">CATENDE</option>
+    </select>
+
+    <div class="modal-actions">
+      <button onclick="confirmarTransferencia()">Confirmar</button>
+      <button onclick="fecharTransferencia()">Cancelar</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
+
 
