@@ -1,6 +1,7 @@
-<script>
+
 const API_URL = "https://motonowmotos-production-4e1a.up.railway.app";
 
+// transferencias pendentes
 async function carregarTransferencias() {
   const res = await fetch(`${API_URL}/transferencias/pendentes`);
   const dados = await res.json();
@@ -10,31 +11,37 @@ async function carregarTransferencias() {
 
   dados.forEach(t => {
     const tr = document.createElement("tr");
-
     tr.innerHTML = `
       <td>${t.chassi}</td>
-      <td>${t.origem}</td>
-      <td>${t.destino}</td>
+      <td>${t.cidade_origem}</td>
+      <td>${t.cidade_destino}</td>
       <td>${t.status}</td>
-      <td>
-        <button onclick="aprovar(${t.id})">Aprovar</button>
-      </td>
     `;
-
     tbody.appendChild(tr);
   });
 }
 
-async function aprovar(id) {
-  if (!confirm("Confirmar aprovação da transferência?")) return;
+// vendas
+async function carregarVendas() {
+  const res = await fetch(`${API_URL}/vendas`);
+  const dados = await res.json();
 
-  await fetch(`${API_URL}/transferencias/aprovar/${id}`, {
-    method: "POST"
+  const tbody = document.getElementById("lista-vendas");
+  tbody.innerHTML = "";
+
+  dados.forEach(v => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${v.cidade}</td>
+      <td>${v.modelo}</td>
+      <td>${v.chassi}</td>
+      <td>${v.cliente_nome}</td>
+      <td>R$ ${v.valor_venda}</td>
+      <td>${v.data_saida}</td>
+    `;
+    tbody.appendChild(tr);
   });
-
-  alert("Transferência aprovada!");
-  carregarTransferencias();
 }
 
 carregarTransferencias();
-</script>
+carregarVendas();
