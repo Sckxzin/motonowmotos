@@ -1,12 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const pool = require("../db");
 
+// GET /login (pra navegador não reclamar)
+router.get("/", (req, res) => {
+  res.json({
+    status: "rota /login ativa",
+    metodo: "use POST para autenticar"
+  });
+});
+
+// POST /login (login real)
 router.post("/", async (req, res) => {
   const { usuario, senha } = req.body;
 
   try {
-    const result = await db.query(
+    const result = await pool.query(
       "SELECT usuario, loja FROM usuarios WHERE usuario = $1 AND senha = $2",
       [usuario, senha]
     );
@@ -20,10 +29,9 @@ router.post("/", async (req, res) => {
       usuario: result.rows[0].usuario,
       loja: result.rows[0].loja
     });
-
   } catch (err) {
     console.error(err);
-    res.status(500).json({ erro: "Erro no login" });
+    res.status(500).json({ error: "Erro no login" });
   }
 });
 
