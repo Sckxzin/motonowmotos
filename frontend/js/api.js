@@ -1,4 +1,4 @@
-const API_URL = "https://SEU_BACKEND_RAILWAY.app";
+const API_URL = "motonowmotos-production-4e1a.up.railway.app";
 
 async function carregarMotos() {
   const res = await fetch(`${API_URL}/motos`);
@@ -27,3 +27,4 @@ async function carregarMotos() {
 }
 
 carregarMotos();
+
